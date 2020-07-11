@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="/static/js/brython.js""> </script>
+    <script type="text/javascript" src="/static/js/brython_stdlib.js"> </script>
+    <script type="text/python" src="./main.py"></script>
+    <link rel="stylesheet" type="text/css" href="./static/css/normalize.css?v=3">
+</head>
+
+<body onload="brython(1)">
+
+<table id="t01">
+  <tr>
+    <th></th>
+    <th width = "{interval-4}" b-code="for i in range(map_size):">{i}</th>
+  </tr>
+  <tr>
+    <td height="{interval-4}">0</td>
+    <td colspan = "{map_size}" rowspan = "{map_size}" id = "canva_parent">
+    </td>
+  </tr>
+  <tr height="{interval-4}" b-code="for i in range(1, map_size):">
+    <td>{i}</td>
+  </tr>
+</table>
+<canvas id="zone" width="320" height="320" margin= "0px" z-index="0"></canvas>
+<span id="trace3"></span>
+<button id="btn-turn-right" type="button">右轉</button>
+<button id="btn-turn-left" type="button">左轉</button>
+<button id="btn-turn-over" type="button">迴轉</button>
+<br>
+<button id="btn-walk" type="button">前進</button>
+<button id="btn-stop" type="button">Stop</button>
+<br>
+<button id="btn-invisible" type="button">運行</button>
+
+
+</body>
+
+</html>

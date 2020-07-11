@@ -1,0 +1,32 @@
+body {
+  font-size: 0.8em;
+  font-family: arial,sans-serif;
+  height: 100vh;
+  background: lightblue;
+  /*margin: 100px;*/
+  /*display: grid;*/
+  /*place-items: center;*/
+}
+table, th, td {
+  /*border: 1px solid black;*/
+  border-collapse: collapse;
+}
+th, td {
+  /*padding: 5px;*/
+  text-align: center;
+  color: black;
+  font-weight: bold;
+}
+
+#trace3 {
+  left:0px;
+  top:0px;
+  position:absolute;
+  background-color:transparent;
+  z-index:1;
+  color: white;
+}
+
+#zone {
+  text-align: left;
+}

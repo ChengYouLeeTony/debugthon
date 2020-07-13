@@ -96,7 +96,6 @@ oop.inherits(Mode, TextMode);
     this.lineCommentStart = "--";
 
     this.$id = "ace/mode/sql";
-    this.snippetFileId = "ace/snippets/sql";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;

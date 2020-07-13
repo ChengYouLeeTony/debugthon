@@ -11531,7 +11531,6 @@ oop.inherits(Mode, TextMode);
     };
 
     this.$id = "ace/mode/javascript";
-    this.snippetFileId = "ace/snippets/javascript";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
@@ -11869,7 +11868,6 @@ oop.inherits(Mode, TextMode);
     };
 
     this.$id = "ace/mode/css";
-    this.snippetFileId = "ace/snippets/css";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
@@ -12762,7 +12760,6 @@ oop.inherits(Mode, TextMode);
     };
 
     this.$id = "ace/mode/html";
-    this.snippetFileId = "ace/snippets/html";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
@@ -12889,7 +12886,6 @@ oop.inherits(Mode, HtmlMode);
     };
 
     this.$id = "ace/mode/php";
-    this.snippetFileId = "ace/snippets/php";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;

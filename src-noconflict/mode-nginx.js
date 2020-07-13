@@ -275,7 +275,6 @@ var Mode = function () {
     TextMode.call(this);
     this.HighlightRules = NginxHighlightRules;
     this.foldingRules = new CStyleFoldMode();
-    this.$behaviour = this.$defaultBehaviour;
 };
 
 oop.inherits(Mode, TextMode);

@@ -5,10 +5,10 @@ from time import time
 from browser import timer
 from browser import window as win
 import math
-# from util import Queue
+from util import Queue
 
 class spirit():
-  def __init__(self, name, src, img_size = 48):
+  def __init__(self, name = "robot", src = "./static/images/Actor3.png", img_size = 48, top_x = 26, left_y = 20, interval = 40, top=0, right=40, speed = 10):
     self.name = name
     self.src = src
     self.img_size = img_size
@@ -17,7 +17,7 @@ class spirit():
     self.top_x = None
     self.left_y = None
     self.interval = None
-    """紀錄spirit面朝的方向 1為上2為右3為下4為左"""
+    """紀錄spirit面朝的方向 1為上2為右3為下4為左 預設為面朝下"""
     self.direction = 3
     self.is_upper_half = None
     self.clip_right = None
@@ -31,14 +31,25 @@ class spirit():
     """紀錄spirit動畫開始前的起始位置"""
     self.spirit_top_now = None
     self.spirit_left_now = None
-    # """紀錄左轉、右轉、迴轉正在被執行的次數"""
+    """紀錄左轉、右轉、迴轉正在被執行的次數"""
     self.turn_count = 0
-  def set_value(self, top_x, left_y, interval):
+    """執行Amy.set_value top_x left_y代表起點 interval代表一格大小px speed代表動畫運行速度"""
+    self.set_value(top_x, left_y, interval, speed)
+    """top right代表切圖的位置"""
+    self.start(top, right)
+  def set_value(self, top_x, left_y, interval, speed):
     self.top_x = top_x
     self.left_y = left_y
     self.interval = interval
-  def start(self, top, right, speed=5):
+    self.speed = speed
+    """紀錄該spirit的speed 1000 / speed == duration"""
+    self.duration = 1000 / self.speed
+  def set_speed(self, speed):
+    self.speed = speed
+    self.duration = 1000 / self.speed
+  def start(self, top, right):
     self.img = html.IMG(src = self.src, id = self.name, width = self.interval * 12, height = self.interval * 8)
+    document["canvas_parent"] <= self.img
     style = self.img.style
     self.is_upper_half = (True if top == 0 else False)
     clip_top = str(top) + "px"
@@ -50,18 +61,14 @@ class spirit():
     style.left = str(self.top_x) + "px"
     style.top = str(self.left_y) + "px"
     style.pointerEvents = "none"
-    document <= self.img
     """連結按鈕到可以動"""
     document['btn-turn-left'].bind('click', self.turn_left1)
     document['btn-turn-right'].bind('click', self.turn_right1)
     document['btn-turn-over'].bind('click', self.turn_over1)
-    document['btn-walk'].bind('click', self.walk)
-    document['btn-stop'].bind('click', self.stop)
+    document['btn-walk'].bind('click', self.walk1)
     """紀錄該spirit的clip_right、clip_top位置以供後續使用"""
     self.clip_top = clip_top
     self.clip_right = clip_right
-    """紀錄該spirit的speed 1000 / speed == duration"""
-    self.duration = 1000 / speed
   def walk_an_interval(self):
     """duration 走一步的動畫時長，單位為ms"""
     style = self.img.style
@@ -89,9 +96,12 @@ class spirit():
       self.animation_count = 0
       self.is_walk = False
       self.stop()
-  def walk(self, ev=None):
-    aio.run(self.walk1())
-  async def walk1(self, ev=None):
+  def walk(self):
+    self.turn_count += 1
+    timer.set_timeout(self.walk1, self.turn_count*self.duration*2)
+  def walk1(self, ev=None):
+    aio.run(self.walk2())
+  async def walk2(self):
     while self.is_walk == True:
       await aio.sleep(self.duration*2 / 1000)
     else:
@@ -134,7 +144,7 @@ class spirit():
     style.clip = f'rect({clip_top},{clip_right},{clip_down},{clip_left})'
   def turn_left(self):
     self.turn_count += 1
-    timer.set_timeout(self.turn_left1, self.turn_count*self.duration)
+    timer.set_timeout(self.turn_left1, self.turn_count*self.duration*2)
   def turn_left1(self, ev = None):
     aio.run(self.turn_left2())
   async def turn_left2(self):
@@ -158,7 +168,7 @@ class spirit():
       self.is_walk = False
   def turn_right(self):
     self.turn_count += 1
-    timer.set_timeout(self.turn_right1, self.turn_count*self.duration)
+    timer.set_timeout(self.turn_right1, self.turn_count*self.duration*2)
   def turn_right1(self, ev=None):
     aio.run(self.turn_right2())
   async def turn_right2(self):
@@ -182,7 +192,7 @@ class spirit():
       self.is_walk = False
   def turn_over(self):
     self.turn_count += 1
-    timer.set_timeout(self.turn_over1, self.turn_count*self.duration)
+    timer.set_timeout(self.turn_over1, self.turn_count*self.duration*2)
   def turn_over1(self, ev=None):
       aio.run(self.turn_over2())
   async def turn_over2(self):

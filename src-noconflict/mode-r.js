@@ -299,7 +299,6 @@ ace.define("ace/mode/r",["require","exports","module","ace/unicode","ace/range",
 
       this.nonTokenRe = new RegExp("^(?:[^" + unicode.wordChars + "._]|\s])+", "g");
        this.$id = "ace/mode/r";
-       this.snippetFileId = "ace/snippets/r";
    }).call(Mode.prototype);
    exports.Mode = Mode;
 });                (function() {

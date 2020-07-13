@@ -1,5 +1,10 @@
+ace.define("ace/snippets/typescript",["require","exports","module"], function(require, exports, module) {
+"use strict";
 
-;                (function() {
+exports.snippetText =undefined;
+exports.scope = "typescript";
+
+});                (function() {
                     ace.require(["ace/snippets/typescript"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;

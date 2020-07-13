@@ -5,16 +5,16 @@ from util import get_position
 import math
 
 class build_map():
-  def __init__(self, mapsize):
+  def __init__(self, mapsize, canvas_size_px = 320):
     self.mapsize = mapsize
     self.ground_map = []
     self.ground_map_dict = {}
     self.ground_name_src_dict = {}
-    self.canvas_height = int(document["zone"]["height"])
+    self.canvas_height = canvas_size_px
     #一格大小
     self.interval = self.canvas_height // mapsize
     self.ground_name_list = []
-    self.canvas = document["zone"]
+    self.canvas = html.CANVAS(width=canvas_size_px, height=canvas_size_px, margin= 0, z_index=0)
     self.ctx = self.canvas.getContext("2d")
     self.top_x = None
     self.left_y = None
@@ -76,7 +76,7 @@ class build_map():
       ctx.stroke()
   def move_canvas_and_bind_mousemove(self):
     """將畫好的canvas擺到table中正確的位置"""
-    document["canva_parent"] <= self.canvas
+    document["canvas_parent"] <= self.canvas
     self.canvas.bind("mousemove", self.mousemove)
     self.canvas.bind("mouseleave", self.mouseleave)
   def mousemove(self, ev):
@@ -98,6 +98,9 @@ class build_map():
     document["trace3"].text = ""
   def return_canvas_interval(self):
     return self.interval
+  def get_top_x_left_y(self):
+    self.top_x, self.left_y = get_position(document["canvas_parent"])
+    return self.top_x, self.left_y
 
 
 

@@ -343,10 +343,10 @@ var PythonHighlightRules = function() {
             regex: "\\s+"
         }, {
             token: "string",
-            regex: "'[^']*'"
+            regex: "'(.)*'"
         }, {
             token: "string",
-            regex: '"[^"]*"'
+            regex: '"(.)*"'
         }, {
             token: "function.support",
             regex: "(!s|!r|!a)"
@@ -418,7 +418,7 @@ oop.inherits(FoldMode, BaseFoldMode);
 
 });
 
-ace.define("ace/mode/python",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/python_highlight_rules","ace/mode/folding/pythonic","ace/range"], function(require, exports, module) {
+ace.define("ace/mode/python",["require","exports","module","ace/lib/oop","ace/mode/text","ace/mode/python_highlight_rules","ace/mode/folding/pythonic","ace/range","ace/worker/worker_client"], function(require, exports, module) {
 "use strict";
 
 var oop = require("../lib/oop");
@@ -426,6 +426,7 @@ var TextMode = require("./text").Mode;
 var PythonHighlightRules = require("./python_highlight_rules").PythonHighlightRules;
 var PythonFoldMode = require("./folding/pythonic").FoldMode;
 var Range = require("../range").Range;
+var WorkerClient = require('../worker/worker_client').WorkerClient;
 
 var Mode = function() {
     this.HighlightRules = PythonHighlightRules;
@@ -492,9 +493,30 @@ oop.inherits(Mode, TextMode);
         if (indent.slice(-tab.length) == tab)
             doc.remove(new Range(row, indent.length-tab.length, row, indent.length));
     };
+    
+    this.createWorker = function(session) {
+      var worker = new WorkerClient(
+        ['ace'],
+        'ace/mode/python_worker',
+        'PythonWorker'
+      )
 
+      worker.attachToDocument(session.getDocument())
+
+      worker.on('initAfter', function(event) {
+        session._emit('initAfter', {data: event.data})
+      })
+
+      worker.on('terminate', function() {
+        session.clearAnnotations()
+      })
+      worker.on('syntax', function(event) {
+        session.setAnnotations(event.data)
+      })
+
+      return worker
+    };
     this.$id = "ace/mode/python";
-    this.snippetFileId = "ace/snippets/python";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;

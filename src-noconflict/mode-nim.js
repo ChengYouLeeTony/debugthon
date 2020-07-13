@@ -338,7 +338,6 @@ var Mode = function () {
     TextMode.call(this);
     this.HighlightRules = NimHighlightRules;
     this.foldingRules = new CStyleFoldMode();
-    this.$behaviour = this.$defaultBehaviour;
 };
 
 oop.inherits(Mode, TextMode);

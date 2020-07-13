@@ -1,5 +1,10 @@
+ace.define("ace/snippets/red",["require","exports","module"], function(require, exports, module) {
+"use strict";
 
-;                (function() {
+exports.snippetText = " ";
+exports.scope = "red";
+
+});                (function() {
                     ace.require(["ace/snippets/red"], function(m) {
                         if (typeof module == "object" && typeof exports == "object" && module) {
                             module.exports = m;

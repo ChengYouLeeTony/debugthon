@@ -1419,7 +1419,6 @@ oop.inherits(Mode, TextMode);
 (function() {
 
     this.$id = "ace/mode/jsp";
-    this.snippetFileId = "ace/snippets/jsp";
 }).call(Mode.prototype);
 
 exports.Mode = Mode;
